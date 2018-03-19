@@ -17,9 +17,11 @@ import a2.a2017.iff.p2android.adapter.ClickRecyclerViewListener;
 import a2.a2017.iff.p2android.adapter.SerieAdapter;
 import a2.a2017.iff.p2android.model.Serie;
 import a2.a2017.iff.p2android.R;
+import io.realm.Realm;
 
 public class SerieActivity extends AppCompatActivity implements ClickRecyclerViewListener {
 
+    private Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +29,7 @@ public class SerieActivity extends AppCompatActivity implements ClickRecyclerVie
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_Serie);
-
-        recyclerView.setAdapter(new SerieAdapter(getSeries(),this,this));
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setLayoutManager(layout);
+        realm = Realm.getDefaultInstance();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,27 +42,27 @@ public class SerieActivity extends AppCompatActivity implements ClickRecyclerVie
     }
 
     private List<Serie> getSeries(){
-        List<Serie> series = new ArrayList<Serie>();
-        int i =0;
-        for(i=0;i<=20;i++){
-            String iv = String.valueOf(i);
-            Serie livro = new Serie(i,"serie".concat(iv),"Descricao".concat(iv));
-            series.add(livro);
-        }
-        return series;
+        return (List)realm.where(Serie.class).findAll();
 
     }
 
     public void onClick(Object object) {
         Serie serie = (Serie) object;
-        //Intent intent = new Intent(this, LivroDestaque.class);
-        //intent.putExtra("livro", livro);
-        //startActivity(intent);
-
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+    protected void onResume() {
+        super.onResume();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_Serie);
+
+        recyclerView.setAdapter(new SerieAdapter(getSeries(),this,this));
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(layout);
 
     }
 }
