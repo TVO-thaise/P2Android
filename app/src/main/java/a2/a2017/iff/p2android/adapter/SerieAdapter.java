@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import a2.a2017.iff.p2android.activity.Serie;
+import a2.a2017.iff.p2android.model.Serie;
 import a2.a2017.iff.p2android.R;
 
 public class SerieAdapter  extends RecyclerView.Adapter{

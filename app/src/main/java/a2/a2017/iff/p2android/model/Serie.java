@@ -1,4 +1,4 @@
-package a2.a2017.iff.p2android.activity;
+package a2.a2017.iff.p2android.model;
 
 import java.io.Serializable;
 import io.realm.RealmObject;
